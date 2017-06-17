@@ -16,9 +16,17 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     var gameScene: SCNScene!
     var cameraNode: SCNNode!
     var targetCreationTime: TimeInterval = 0
+    var counter: NSInteger = 0
+    var life: NSInteger = 3
+    var scoreLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scoreLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        scoreLabel.textColor = .white
+        scoreLabel.text = String(counter)
+        self.view.addSubview(scoreLabel)
+        
         initView()
         initScene()
         initCamera()
@@ -34,7 +42,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func initScene () {
         gameScene = SCNScene ()
         gameView.scene = gameScene
-        
         gameView.isPlaying = true
     }
     
@@ -98,9 +105,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             if node.name == "friend" {
                 node.removeFromParentNode()
                 self.gameView.backgroundColor = .black
+                counter += 1
+                scoreLabel.text = String(counter)
+                
             } else {
                 node.removeFromParentNode()
                 self.gameView.backgroundColor = .red
+                life -= 1
             }
         }
     }
